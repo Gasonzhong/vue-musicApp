@@ -34,15 +34,15 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-    
-      //配置目录别名，直接用src下中的目录
-    
-        '@': resolve('src'),
-        'common': resolve('src/common'),
-        'components': resolve('src/components'),
-        'base': resolve('src/base'),
-        'api': resolve('src/api')
-      
+
+      // 配置目录别名，直接用src下中的目录
+
+      '@': resolve('src'),
+      'common': resolve('src/common'),
+      'components': resolve('src/components'),
+      'base': resolve('src/base'),
+      'api': resolve('src/api')
+
     }
   },
   module: {
