@@ -6,7 +6,7 @@ export const commonParams = {
   notice: 0,
   format: 'jsonp'
 }
-
+// 参数选项
 export const options = {
   param: 'jsonpCallback'
 }
