@@ -1,18 +1,19 @@
 <template>
-    <div class="slider" ref="slider">
-        <div class="slider-group" ref="sliderGroup">
-            <slot>
-            </slot>
-        </div>
-        <div class="dots">
-            <span class="dot" :class="{active: currentPageIndex === index}" v-for="(item, index) in dots" :key = "index"></span>
-        </div>
+  <div class="slider" ref="slider">
+    <div class="slider-group" ref="sliderGroup">
+      <slot>
+      </slot>
     </div>
+    <div class="dots">
+      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="index"></span>
+    </div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { addClass } from 'common/js/dom'
 import BScroll from 'better-scroll'
+
 export default {
   name: 'slider',
   props: {
@@ -33,14 +34,14 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
       dots: [],
       currentPageIndex: 0
     }
   },
   // mounted钩子，浏览器刷新时间为17ms以后
-  mounted () {
+  mounted() {
     setTimeout(() => {
       this._setSliderWidth()
       this._initDots()
@@ -59,21 +60,21 @@ export default {
       this.slider.refresh()
     })
   },
-  activated () {
+  activated() {
     if (this.autoPlay) {
       this._play()
     }
   },
-  deactivated () {
+  deactivated() {
     clearTimeout(this.timer)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     clearTimeout(this.timer)
   },
   methods: {
-    // 设置高度
-    _setSliderWidth (isResize) {
-      this.children = this.$refs.sliderGroup.children // 通过ref来获取元素，减少获取dom节点的消耗
+    // 设置宽度
+    _setSliderWidth(isResize) {
+      this.children = this.$refs.sliderGroup.children
 
       let width = 0
       let sliderWidth = this.$refs.slider.clientWidth
@@ -90,7 +91,7 @@ export default {
       this.$refs.sliderGroup.style.width = width + 'px'
     },
 
-    _initSlider () {
+    _initSlider() {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
@@ -102,29 +103,32 @@ export default {
       })
 
       this.slider.on('scrollEnd', () => {
-        // 获取图片索引
-        let pageIndex = this.slider.getCurrentPage().pageIndex
-        if (this.loop) {
-          pageIndex -= 1
-        }
+        // 第几张图片
+        console.log('1', this.currentPageIndex)
+        let pageIndex = this.slider.getCurrentPage().pageX
         this.currentPageIndex = pageIndex
         if (this.autoPlay) {
+          clearTimeout(this.timer)
           this._play()
         }
       })
+
       this.slider.on('beforeScrollStart', () => {
         if (this.autoPlay) {
           clearTimeout(this.timer)
         }
       })
     },
-    _initDots () {
+    _initDots() {
       this.dots = new Array(this.children.length)
     },
-    _play () {
-      let pageIndex = this.currentPageIndex + 1
+    _play() {
+      let pageIndex = this.currentPageIndex
       if (this.loop) {
         pageIndex += 1
+        if (pageIndex > (this.children.length - 1)) {
+          pageIndex = 0
+        }
       }
       this.timer = setTimeout(() => {
         this.slider.goToPage(pageIndex, 0, 400)
