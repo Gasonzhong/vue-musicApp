@@ -77,6 +77,7 @@ export default {
       this.children = this.$refs.sliderGroup.children
 
       let width = 0
+      // console.log(this.children)
       let sliderWidth = this.$refs.slider.clientWidth
       for (let i = 0; i < this.children.length; i++) {
         let child = this.children[i]
@@ -85,10 +86,12 @@ export default {
         child.style.width = sliderWidth + 'px'
         width += sliderWidth
       }
-      if (this.loop && !isResize) {
-        width += 2 * sliderWidth
-      }
+      // console.log(width)
+      // if (this.loop && !isResize) {
+      //   width += 2 * sliderWidth
+      // }
       this.$refs.sliderGroup.style.width = width + 'px'
+      console.log(this.$refs.sliderGroup.style.width)
     },
 
     _initSlider() {
@@ -104,9 +107,10 @@ export default {
 
       this.slider.on('scrollEnd', () => {
         // 第几张图片
-        console.log('1', this.currentPageIndex)
+        // console.log('1', this.currentPageIndex)
         let pageIndex = this.slider.getCurrentPage().pageX
         this.currentPageIndex = pageIndex
+        // console.log(this.currentPageIndex)
         if (this.autoPlay) {
           clearTimeout(this.timer)
           this._play()
@@ -114,6 +118,7 @@ export default {
       })
 
       this.slider.on('beforeScrollStart', () => {
+        console.log(this.currentPageIndex)
         if (this.autoPlay) {
           clearTimeout(this.timer)
         }
