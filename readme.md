@@ -24,3 +24,19 @@
     }
   },```
 
+## webpack中使用代理请求
+* 注意看webpack中文档，看清楚Req和Rep
+```   
+ proxy: {
+      '/api': {
+        target: 'https://c.y.qq.com/',
+        pathRewrite: {'^/api/getDiscList': '/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'},
+        secure: false,
+        changeOrigin: true,
+        onProxyReq: function (proxyReq, req, res) {
+          proxyReq.setHeader('referer', 'https://c.y.qq.com/')
+          proxyReq.setHeader('host', 'c.y.qq.com')
+        }
+      }
+    }
+```

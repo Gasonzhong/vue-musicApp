@@ -38,14 +38,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: {
-      '/api/getDiscList': {
-        target: 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg',
-        pathRewrite: {'^/api/getDiscList': '/'},
+      '/api': {
+        target: 'https://c.y.qq.com/',
+        pathRewrite: {'^/api/getDiscList': '/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'},
         secure: false,
         changeOrigin: true,
-        onProxyRes: function (proxyRes, req, res) {
-          proxyRes.headers['referer'] = 'https://c.y.qq.com/'
-          proxyRes.headers['host'] = 'c.y.qq.com'
+        onProxyReq: function (proxyReq, req, res) {
+          proxyReq.setHeader('referer', 'https://c.y.qq.com/')
+          proxyReq.setHeader('host', 'c.y.qq.com')
         }
       }
     },
